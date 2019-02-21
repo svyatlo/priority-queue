@@ -15,11 +15,11 @@ class PriorityQueue {
 	}
 
 	size() {
-
+		return this.heap.length;
 	}
 
 	isEmpty() {
-		
+		return this.heap.length === 0;
 	}
 }
 
