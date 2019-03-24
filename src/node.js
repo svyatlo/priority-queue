@@ -8,7 +8,6 @@ class Node {
 	}
 
 	appendChild(node) {
-		// console.log('node', node);
 		if (this.left === null) {
 			this.left = node;
 			this.left.parent = this;
@@ -18,8 +17,6 @@ class Node {
 		} else {
 			return;
 		}
-		//console.log('this', this);
-		//console.log('this.right', this.right);
 	}
 
 	removeChild(node) {
@@ -35,11 +32,56 @@ class Node {
 	}
 
 	remove() {
-
+		if (this.parent) {
+			this.parent.removeChild(this);
+		}
 	}
 
 	swapWithParent() {
+		if (!this.parent) {
+			return;
+		}
+
+		const grandParent = this.parent.parent;
+		const parent = this.parent;
+		const parentLeft = parent.left;
+		const parentRight = parent.right;
+		const child = this;
+		const childLeft = child.left;
+		const childRight = child.right;
+
+		if (grandParent) {
+			grandParent.removeChild(parent);
+		}
+
+		child.parent = null;
+		child.left = null;
+		child.right = null;
+		parent.parent = null;
+		parent.left = null;
+		parent.right = null;
+
+		if (childLeft) {
+			parent.appendChild(childLeft);
+		}
 		
+		if (childRight) {
+			parent.appendChild(childRight);
+		}
+		
+		if (child === parentLeft) {
+			child.appendChild(parent);
+			if (parentRight) {
+				child.appendChild(parentRight);
+			}
+		} else {
+			child.appendChild(parentLeft);
+			child.appendChild(parent);
+		}
+
+		if (grandParent) {
+			grandParent.appendChild(child);
+		}
 	}
 }
 
